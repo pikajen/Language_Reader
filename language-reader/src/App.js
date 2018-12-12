@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import RegionSelect from 'react-region-select'
 import ReactCrop from 'react-image-crop'
+import "react-image-crop/dist/ReactCrop.css";
 import './App.css';
 
 
@@ -10,9 +10,7 @@ var Tesseract = window.Tesseract;
 class App extends Component {
   constructor (props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
     this.state = {
-      regions: [],
       src: '',
       crop: {
         x: 0, 
@@ -33,11 +31,6 @@ class App extends Component {
 
   onImageLoaded = (image, pixelCrop) => {
     this.imageRef = image;
-  }
-  onChange (regions) {
-    this.setState({
-      regions: regions
-    });
   }
 
   onCropChange = crop => {
@@ -103,35 +96,32 @@ class App extends Component {
   }
 
   render() {
-    const regionStyle = {
-      background: 'rgba(255, 0, 0, 0.5)'
-    };
-
     const {croppedImageUrl} = this.state;
 
     return (
-      <div style={{ display: 'flex' }}>
-        <div>
-          <input type="file" onChange={this.onSelectFile} />
-        </div>
-        <div style={{ flexGrow: 1, flexShrink: 1, width: '50%' }}>
-          <RegionSelect
-            maxRegions={1}
-            regions={this.state.regions}
-            regionStyle={regionStyle}
-            constraint
-            onChange={this.onChange}
-            style={{ border: '1px solid black' }}
-          >
-            <ReactCrop
-            src={this.state.src}
-            crop={this.state.crop}
-            onChange={this.onCropChange}
-            onComplete={this.onCropComplete}
-            onImageLoaded={this.onImageLoaded}
-          />
-          </RegionSelect>
-          {croppedImageUrl && <img alt="Crop" src={croppedImageUrl} />}
+      <div>
+        <nav className='block sticky'>
+          <ul className="nav">
+            <li>Home</li>
+            <li>Books</li>
+            <li className="right">Account</li>
+          </ul>
+        </nav>
+        <div className="container">
+          <div className='block side'>
+            <input type="file" name="file" id="file" className="inputfile" onChange={this.onSelectFile} />
+            <label for="file">Add Page</label>
+          </div>
+          <div className='block display-page'>
+              <ReactCrop
+              src={this.state.src}
+              crop={this.state.crop}
+              onChange={this.onCropChange}
+              onComplete={this.onCropComplete}
+              onImageLoaded={this.onImageLoaded}
+            />
+          </div>
+          {croppedImageUrl && <img className="block" alt="Crop" src={croppedImageUrl} />}
         </div>
 
       </div>

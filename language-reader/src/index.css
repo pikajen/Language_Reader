@@ -12,3 +12,70 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+html,body, div {
+	height: 100%;
+}
+
+.block {
+	border: 1px solid #bbb;
+}
+
+/*NAV*/
+
+.nav {
+	display: flex;
+	margin: 0;
+	padding: 5px;
+	list-style: none;
+	font-size: 0.7em;
+}
+
+li {
+	padding: 10px;
+}
+
+.right {
+	margin-left: auto;
+}
+
+/*SIDEBAR*/
+
+.container {
+	display: flex;
+}
+
+.side {
+	background-color: #444;
+	width: 20%;
+	display:flex;
+	justify-content: center;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    color: white;
+    height: 15px;
+    align-items: center;
+    padding: 5px;
+}
+
+/* PAGE DISPLAY */
+.display-page {
+	display:flex;
+	width:60%;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+	overflow: hidden;
+}
+
+
