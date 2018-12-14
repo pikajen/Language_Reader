@@ -1,0 +1,20 @@
+{
+  "name": "language-reader-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "@vitalets/google-translate-api": "^2.4.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "google-translate-api": "^2.3.0",
+    "nodemon": "^1.18.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
