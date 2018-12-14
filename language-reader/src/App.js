@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactCrop from 'react-image-crop'
+import ReactCrop from 'react-image-crop';
 import "react-image-crop/dist/ReactCrop.css";
 import './App.css';
 
@@ -15,7 +15,9 @@ class App extends Component {
       crop: {
         x: 0, 
         y: 0
-      }
+      },
+      text: '',
+      translation: ''
     };
   }
 
@@ -40,6 +42,7 @@ class App extends Component {
   onCropComplete = (crop, pixelCrop) => {
     this.makeClientCrop(crop, pixelCrop);
   };
+
   async makeClientCrop(crop, pixelCrop) {
     if (this.imageRef && crop.width && crop.height) {
       const croppedImageUrl = await this.getCroppedImg(
@@ -47,6 +50,7 @@ class App extends Component {
         pixelCrop,
         'newFile.jpeg',
       );
+      const words = [];
       this.setState({ croppedImageUrl });
        Tesseract.recognize(this.state.croppedImageUrl, {
         lang: 'jpn',
@@ -57,13 +61,34 @@ class App extends Component {
         language_model_ngram_on: 0,
         textord_force_make_prop_words: 0,
         edges_max_childre_per_outline: 40,
-        tessedit_pageseg_mode: 3
+        tessedit_pageseg_mode: 1
       })
       .then(result => {
-        console.log("hi");
-        console.log(result);
+        let text = '';
+        result.words.forEach(word => {
+          text = text + " " + word.text;
+        })
+        this.setState({text: text});
+        this.translateText();
       })
     }
+  }
+
+  translateText = () => {
+    fetch('http://localhost:3000/', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        text: this.state.text
+      })
+    })
+    .then(response => {
+      return response.json();
+    }
+    )
+    .then(content => {
+      this.setState({translation: content});
+    })
   }
 
   getCroppedImg(image, pixelCrop, fileName) {
@@ -121,7 +146,12 @@ class App extends Component {
               onImageLoaded={this.onImageLoaded}
             />
           </div>
-          {croppedImageUrl && <img className="block" alt="Crop" src={croppedImageUrl} />}
+          {croppedImageUrl && <img className="block" alt="Crop" src={croppedImageUrl} />
+          }
+          <div className="container-vertical">
+            <div className='block'>`Selected Text: {this.state.text}</div>
+            <div className='block'>Translated Text: {this.state.translation}</div>
+          </div>
         </div>
 
       </div>

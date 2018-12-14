@@ -75,7 +75,13 @@ li {
 	justify-content: center;
 	align-items: center;
 	background-color: black;
-	overflow: hidden;
 }
 
+/* TRANSLATION AREA */
+
+.container-vertical {
+	flex-direction: column;
+	height: 40%;
+	width: 20%;
+}
 
